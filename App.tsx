@@ -273,7 +273,7 @@ const App: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer group" onClick={() => navigateTo('home')}>
           <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-black text-lg shadow-lg group-hover:rotate-12 transition-transform">L</div>
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">LogSpark</h1>
+          <h1 className="text-xl font-bold text-gray-900 tracking-tight">LogsGen</h1>
         </div>
         
         <nav className="hidden md:flex gap-8 text-sm font-semibold text-gray-500">
