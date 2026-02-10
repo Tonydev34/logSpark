@@ -227,8 +227,9 @@ const App: React.FC = () => {
     try {
       const data = await generateChangelogAI(form);
       setResult(data);
-    } catch (err) {
-      setError("AI generation failed. Please check your API key.");
+    } catch (err: any) {
+      console.error("Generation failed:", err);
+      setError(`AI generation failed. Technical Error: ${err?.message || "Check Browser Console"}. If hosted on Vercel, ensure API_KEY is set and the project is redeployed.`);
     } finally {
       setLoading(false);
     }
@@ -439,7 +440,7 @@ const App: React.FC = () => {
             >
               {loading ? "AI is processing..." : "Generate Release Notes"}
             </button>
-            {error && <p className="text-red-500 text-sm mt-6 text-center font-bold bg-red-50 py-4 rounded-xl">{error}</p>}
+            {error && <p className="text-red-500 text-sm mt-6 text-center font-bold bg-red-50 py-4 px-6 rounded-xl leading-relaxed">{error}</p>}
           </div>
         </section>
 
