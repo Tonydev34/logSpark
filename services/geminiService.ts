@@ -3,15 +3,8 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { ChangelogInput, GeneratedChangelog } from "../types";
 
 export const generateChangelogAI = async (input: ChangelogInput): Promise<GeneratedChangelog> => {
-  // Use process.env.API_KEY directly as required by the guidelines
-  const apiKey = process.env.API_KEY;
-  
-  if (!apiKey) {
-    console.error("LogSpark: process.env.API_KEY is undefined. Ensure it is set in your environment variables.");
-    throw new Error("Missing API Key");
-  }
-
-  const ai = new GoogleGenAI({ apiKey });
+  // Use process.env.API_KEY directly as per guidelines
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const templateInstructions = {
     standard: "A balanced mix of technical detail and user benefits. Professional and clear.",
@@ -42,8 +35,9 @@ export const generateChangelogAI = async (input: ChangelogInput): Promise<Genera
   `;
 
   try {
+    // Using gemini-3-pro-preview for complex reasoning and technical writing
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-3-pro-preview",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -62,8 +56,8 @@ export const generateChangelogAI = async (input: ChangelogInput): Promise<Genera
     const text = response.text;
     if (!text) throw new Error("Empty response from AI");
     
-    // Robust cleanup: sometimes the model returns markdown code blocks even with JSON mode
     let jsonStr = text.trim();
+    // Clean potential markdown blocks if present, though responseMimeType: "application/json" is set
     if (jsonStr.startsWith('```')) {
       jsonStr = jsonStr.replace(/^```[a-z]*\n/i, '').replace(/\n```$/i, '').trim();
     }
